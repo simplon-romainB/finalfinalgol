@@ -1,6 +1,6 @@
 # NGgameoflife
 
-Il s'agit d'une version revue et corrigé d'un précédent projet. la partie graphique est en canvas, il est possible de configurer le taux de départ ainsi que les règles de l'automate célullaire.
+Il s'agit d'une version revue et corrigée d'un précédent projet. la partie graphique est en canva, il est possible de configurer le taux de départ ainsi que les règles de l'automate célullaire.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.1.
 
