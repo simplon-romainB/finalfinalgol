@@ -18,7 +18,7 @@ export class CanvasGridComponent implements OnInit {
   private width;
   private height;
   private cellsNumb: number;
-  private initCheck = true;
+  
 
   private defineDimensions(): void{  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
     this.width = parseInt(this.canvascontainer.nativeElement.offsetHeight) ;
@@ -27,19 +27,18 @@ export class CanvasGridComponent implements OnInit {
     this.canvasRef.nativeElement.height = this.height
   }
 
-  private drawInit(){ //déssine la grille
+  private drawInit(){ //prépare la grille
     this.ctx = this.canvasRef.nativeElement.getContext("2d");
     this.cellsNumb = 52; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
-    this.buildGrid();
+    this.buildGrid(true); // remplacement d'une variable de classe par un argument pour check sir la config de base est ok
   }
-   // va initialiser la grille et le remplir par le biais d'autres fonctions.
+   
   ngOnInit() {
     this.init();
     };
 
-  init() {
+  init() { 
     this.defineDimensions();
-    console.log(this.height);
     this.drawInit();
   }
 
@@ -50,21 +49,21 @@ export class CanvasGridComponent implements OnInit {
   getWidth() {
     return this.width;
     }
-  private buildGrid() {  //une double boucle for qui déssine une case se décale de la hauteur de la case et ainsi de suite, colonne par colonne(la première boucle for change de colonne)
+  private buildGrid(init) {  //une double boucle for qui déssine une case se décale de la hauteur de la case et ainsi de suite, colonne par colonne(la première boucle for change de colonne)
       for (var i = this.width/this.cellsNumb; i < this.width-(this.width/this.cellsNumb); i+= this.width/this.cellsNumb) {
         for (var n = this.height/this.cellsNumb; n < this.height-(this.height/this.cellsNumb); n+= this.width/this.cellsNumb) {
-          if (this.initCheck == true) {
+          if (init == true) {
           this.setColorsBuild(i,n);
           }
           else {
           this.cell(i,n, "yellow", true);
-          console.log(this.initCheck);
+          console.log(init);
           }
         }
         
       }
-      this.initCheck = false;
-      console.log(this.initCheck);
+      init = false;
+      console.log(init);
     }
   private cell(i,n,color: string,state) {
     this.ctx.strokeRect((n-(this.height/this.cellsNumb)),i,(this.height/this.cellsNumb),(this.height/this.cellsNumb));
