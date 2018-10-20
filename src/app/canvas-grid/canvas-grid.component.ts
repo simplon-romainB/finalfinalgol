@@ -18,6 +18,7 @@ export class CanvasGridComponent implements OnInit {
   private width;
   private height;
   private cellsNumb: number;
+  private initCheck = true;
 
   private defineDimensions(): void{  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
     this.width = parseInt(this.canvascontainer.nativeElement.offsetHeight) ;
@@ -29,14 +30,7 @@ export class CanvasGridComponent implements OnInit {
   private drawInit(){ //déssine la grille
     this.ctx = this.canvasRef.nativeElement.getContext("2d");
     this.cellsNumb = 52; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
-    this.buildGrid("white", false);
-  }
-  private fillInit() {
-    var startingCells = Math.random(); // TODO mettre cette partie dans configuration pour regler le pourcentage de départ
-    if (startingCells <= 0.5 ) {
-
-    } 
-  
+    this.buildGrid();
   }
    // va initialiser la grille et le remplir par le biais d'autres fonctions.
   ngOnInit() {
@@ -45,7 +39,6 @@ export class CanvasGridComponent implements OnInit {
 
   init() {
     this.defineDimensions();
-    //this.ctx = this.canvasRef.nativeElement.getContext("2d");
     console.log(this.height);
     this.drawInit();
   }
@@ -57,20 +50,42 @@ export class CanvasGridComponent implements OnInit {
   getWidth() {
     return this.width;
     }
-  private buildGrid(color: string, state: boolean) {
+  private buildGrid() {  //une double boucle for qui déssine une case se décale de la hauteur de la case et ainsi de suite, colonne par colonne(la première boucle for change de colonne)
       for (var i = this.width/this.cellsNumb; i < this.width-(this.width/this.cellsNumb); i+= this.width/this.cellsNumb) {
         for (var n = this.height/this.cellsNumb; n < this.height-(this.height/this.cellsNumb); n+= this.width/this.cellsNumb) {
-        this.cell(i,n, color, state);
+          if (this.initCheck == true) {
+          this.setColorsBuild(i,n);
+          }
+          else {
+          this.cell(i,n, "yellow", true);
+          console.log(this.initCheck);
+          }
         }
+        
       }
+      this.initCheck = false;
+      console.log(this.initCheck);
     }
-  private cell(i,n,color,state) {
+  private cell(i,n,color: string,state) {
     this.ctx.strokeRect((n-(this.height/this.cellsNumb)),i,(this.height/this.cellsNumb),(this.height/this.cellsNumb));
-    this.ctx.strokeStyle= "black" //une double boucle for qui déssine une case se décale de la hauteur de la case et ainsi de suite, colonne par colonne(la première boucle for change de colonne)
+    this.ctx.strokeStyle= "black" 
     this.ctx.fillStyle= color
     this.ctx.fillRect((n-(this.height/this.cellsNumb)),i,(this.height/this.cellsNumb),(this.height/this.cellsNumb));
-  
+    console.log(color);
   }
+ 
+  private setColorsBuild(i,n,) {
+    var c: number = Math.random() // TODO: gerer ça avec la classe config.
+            console.log(c);
+      if (c < 0.5) {
+            this.cell(i,n,"black", true);
+      }
+      else if (c >= 0.5) {
+            this.cell(i,n, "red", false)
+      }
+  }
+
+}
 
   
 
