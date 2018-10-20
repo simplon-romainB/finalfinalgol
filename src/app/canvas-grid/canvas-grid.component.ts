@@ -16,12 +16,12 @@ export class CanvasGridComponent implements OnInit {
   private width;
   private height;
 
-  defineDimensions(): void{  // redefinition de la taille du canva pour le responsive, prend en arguments les dimensions de l'élement parent
+  private defineDimensions(): void{  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
     this.contain = document.getElementById('canvasContainer');
     this.width = this.contain.nativeElement.offsetHeight ;
     this.height = this.contain.nativeElement.offsetWidth;
     this.canvasRef.nativeElement.width =  this.width;
-    this.canvasRef.nativeElement.height = this.height;
+    this.canvasRef.nativeElement.height = this.height
   }
    // va initialiser la grille et le remplir par le biais d'autres fonctions.
   ngOnInit() {
@@ -29,6 +29,14 @@ export class CanvasGridComponent implements OnInit {
     this.ctx = this.canvasRef.nativeElement.getContext("2d");
     console.log(this.height);
     };
+
+  getHeight() {
+    return this.height;
+    }
+
+  getWidth() {
+    return this.width;
+    }
   }
 
 
