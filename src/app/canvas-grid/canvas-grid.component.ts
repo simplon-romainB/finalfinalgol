@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CellsNumbTabModel} from ".././cells-numb-tab-model";
 
 
 
@@ -18,7 +19,7 @@ export class CanvasGridComponent implements OnInit {
   private width;
   private height;
   private cellsNumb: number;
-  
+  private cellsNumbTabModel: CellsNumbTabModel = {order: 2, state: true}
 
   private defineDimensions(): void{  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
     this.width = parseInt(this.canvascontainer.nativeElement.offsetHeight) ;
@@ -34,6 +35,7 @@ export class CanvasGridComponent implements OnInit {
   }
    
   ngOnInit() {
+    console.log(this.cellsNumbTabModel);
     this.init();
     };
 
