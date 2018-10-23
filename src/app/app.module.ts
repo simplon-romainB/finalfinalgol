@@ -14,8 +14,8 @@ import { CellsNumbTabModel} from "./cells-numb-tab-model";
   declarations: [
     AppComponent,
     CanvasGridComponent,
-    ConfigurationComponent,
-    CellsNumbTabModel
+    ConfigurationComponent
+    
     
   ],
   imports: [
