@@ -57,7 +57,7 @@ export class CanvasGridComponent implements OnInit {
   private buildGrid(init) {
        this.count = -1; 
        if (init == false) {
-        console.log(this.cellsNumbTabModelsPrevious);
+        
        }
        //TOFIX se debarasser de cette var count qui en plus recourt à un nombre magique
        //une double boucle for qui déssine une case se décale de la hauteur de la case et ainsi de suite, colonne par colonne(la première boucle for change de colonne)
@@ -70,30 +70,32 @@ export class CanvasGridComponent implements OnInit {
           else if (init == false){
           this.count++;
           this.isAlive(i,n);
-          console.log(this.cellsNumbTabModelsNext);
+          
           }
         }
       }
         
       
           if (init == false) {
+            this.count = 0
             for (var i = this.width/this.cellsNumb; i < this.width-(this.width/this.cellsNumb); i+= this.width/this.cellsNumb) {
               for (var n = this.height/this.cellsNumb; n < this.height-(this.height/this.cellsNumb); n+= this.width/this.cellsNumb) {
-              this.cell(i,n, this.cellsNumbTabModelsNext[this.count].state);
+              this.cell(i,n, this.cellsNumbTabModelsNext[this.count]);
+              this.count ++;
             }
               }
           
       
       
-     // this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
-      //this.cellsNumbTabModelsNext = [];
+      this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
+      this.cellsNumbTabModelsNext = [];
           }
           init = false;
   }
-  private cell(i,n,color: string) {
+  private cell(i,n,color) {
     this.ctx.strokeRect((n-(this.height/this.cellsNumb)),i,(this.height/this.cellsNumb),(this.height/this.cellsNumb));
     this.ctx.strokeStyle= "black" 
-    this.ctx.fillStyle= color
+    this.ctx.fillStyle= color;
     this.ctx.fillRect((n-(this.height/this.cellsNumb)),i,(this.height/this.cellsNumb),(this.height/this.cellsNumb));
     
   }
@@ -102,54 +104,62 @@ export class CanvasGridComponent implements OnInit {
     var c: number = Math.random() // TODO: gerer ça avec la classe config.
       if (c < 0.5) {
             this.cell(i,n,"black");
-            this.cellsNumbTabModelsPrevious.push({order: this.count , state:"black"})
+            this.cellsNumbTabModelsPrevious.push({state:"black"})
             this.count ++;
       }
       else if (c >= 0.5) {
             this.cell(i,n, "white")
-            this.cellsNumbTabModelsPrevious.push({order: this.count , state: "white"})
+            this.cellsNumbTabModelsPrevious.push({state: "white"})
             this.count ++
       }
-    console.log(this.cellsNumbTabModelsPrevious);
+    
      
   }
-  private isDefined(one, two, three, four, five, six, seven, eight) {
+  private isDefined() {
     this.finalCells = [];
-    for(let i = 0; i < arguments.length; i++) {
-      if (arguments[i] !== undefined) {
-        this.finalCells.push(arguments[i]);
-      }
-    }
+      if (this.cellsNumbTabModelsPrevious[this.count-1]!== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count-1])}
+      if (this.cellsNumbTabModelsPrevious[this.count+1]!== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count+1])}
+      if (this.cellsNumbTabModelsPrevious[this.count+this.cellsNumb] !==undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count+this.cellsNumb])}
+      if (this.cellsNumbTabModelsPrevious[this.count-this.cellsNumb] !== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count-this.cellsNumb])}
+      if (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)+1] !== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)+1])}
+      if (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb+1)] !== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb+1)])}
+      if (this.cellsNumbTabModelsPrevious[(this.count+this.cellsNumb-1)] !== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[(this.count+this.cellsNumb-1)])}
+      if (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)-1] !== undefined) {this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)-1])}
+      
+  
 
   }
   private isAlive(i,n) {
-      this.isDefined((this.cellsNumbTabModelsPrevious[this.count-1].state),(this.cellsNumbTabModelsPrevious[this.count+1].state), (this.cellsNumbTabModelsPrevious[this.count+this.cellsNumb].state), (this.cellsNumbTabModelsPrevious[this.count-this.cellsNumb].state), (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)+1].state), (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb+1)].state), (this.cellsNumbTabModelsPrevious[(this.count+this.cellsNumb-1)].state), (this.cellsNumbTabModelsPrevious[this.count-(this.cellsNumb)-1].state))
-       if (this.cellsNumbTabModelsPrevious[this.count].state == "black") {
+      this.isDefined()
+       if (this.cellsNumbTabModelsPrevious[this.count] == {state:"black"}) {
         var alive = 0;
       this.finalCells.map(function(x){if (x == "black") {alive++}});
        
-      }
+      
     
         if (alive == 2 || alive == 3) {
-          this.cellsNumbTabModelsNext.push({order: this.count, state: "black"})
+          this.cellsNumbTabModelsNext.push({state: "black"})
         if ((alive !=2 && alive !=3)) {
-          this.cellsNumbTabModelsNext.push({order: this.count, state: "white"})
-      }
-  
-      if (this.cellsNumbTabModelsPrevious[this.count].state == "white") {
-        var alive = 0;
-        this.finalCells.map(function(x){if (x == "black") {alive++}});
+          this.cellsNumbTabModelsNext.push({state: "white"})
       }
     }
+  
+      if (this.cellsNumbTabModelsPrevious[this.count] == {state:"white"}) {
+        var alive = 0;
+        this.finalCells.map(function(x){if (x == "black") {alive++}});
+      
+    
         if (alive == 3 ) {
-        this.cellsNumbTabModelsNext.push({order: this.count, state: "black"})
-        if (alive !=3) {
-        this.cellsNumbTabModelsNext.push({order: this.count, state: "white"});
+        this.cellsNumbTabModelsNext.push({state: "black"})
+        }
+        if (alive !== 3){
+
+        this.cellsNumbTabModelsNext.push({state: "white"});
         }
       }
       this.finalCells = [];
       }
-  
+    }
   }
   
 
