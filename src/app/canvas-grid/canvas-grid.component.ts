@@ -25,16 +25,15 @@ export class CanvasGridComponent implements OnInit {
 
 
   private defineDimensions(): void {  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
-
-    this.width = parseInt(this.canvascontainer.nativeElement.offsetHeight);
-    this.height = parseInt(this.canvascontainer.nativeElement.offsetWidth);
+    this.width = this.canvascontainer.nativeElement.offsetHeight;
+    this.height = this.canvascontainer.nativeElement.offsetWidth;
     this.canvasRef.nativeElement.width = this.width;
     this.canvasRef.nativeElement.height = this.height
   }
 
   private drawInit() { //prépare la grille
     this.ctx = this.canvasRef.nativeElement.getContext("2d");
-    this.cellsNumb = 52; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
+    this.cellsNumb = 55; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
     this.buildGrid(true); // remplacement d'une variable de classe par un argument pour check sir la config de base est ok
   }
 
@@ -64,16 +63,12 @@ export class CanvasGridComponent implements OnInit {
         if (init == true) {
           this.setColorsBuild(i, n);
         }
-
         else if (init == false) {
           this.count++;
           this.isAlive(i, n);
-
         }
       }
     }
-
-
     if (init == false) {
       this.count = -1;
       for (var i = this.width / this.cellsNumb; i < this.width - (this.width / this.cellsNumb); i += this.width / this.cellsNumb) {
@@ -82,22 +77,16 @@ export class CanvasGridComponent implements OnInit {
           this.cell(i, n, this.cellsNumbTabModelsNext[this.count]);
         }
       }
-
-
-
       this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
       this.cellsNumbTabModelsNext = [];
     }
-
   }
   private cell(i, n, color) {
     this.ctx.strokeRect((n - (this.height / this.cellsNumb)), i, (this.height / this.cellsNumb), (this.height / this.cellsNumb));
     this.ctx.strokeStyle = "black"
     this.ctx.fillStyle = color;
     this.ctx.fillRect((n - (this.height / this.cellsNumb)), i, (this.height / this.cellsNumb), (this.height / this.cellsNumb));
-
   }
-
   private setColorsBuild(i, n) {
     var c: number = Math.random() // TODO: gerer ça avec la classe config.
     if (c < 0.5) {
@@ -110,22 +99,17 @@ export class CanvasGridComponent implements OnInit {
       this.cellsNumbTabModelsPrevious.push( "white" )
       this.count++
     }
-
-
   }
   private isDefined() {
     this.finalCells = [];
     if (this.cellsNumbTabModelsPrevious[this.count - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - 1]) }
     if (this.cellsNumbTabModelsPrevious[this.count + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + 1]) }
-    if (this.cellsNumbTabModelsPrevious[this.count + this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + this.cellsNumb]) }
-    if (this.cellsNumbTabModelsPrevious[this.count - this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - this.cellsNumb]) }
-    if (this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) + 1]) }
-    if (this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)]) }
-    if (this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)]) }
-    if (this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1]) }
-
-
-
+    if (this.cellsNumbTabModelsPrevious[this.count+ this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + this.cellsNumb]) }
+    if (this.cellsNumbTabModelsPrevious[this.count- this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - this.cellsNumb]) }
+    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) + 1]) }
+    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)]) }
+    if (this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb - 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)]) }
+    if (this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb + 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1]) }
   }
   private isAlive(i, n) {
     this.isDefined()
@@ -135,7 +119,7 @@ export class CanvasGridComponent implements OnInit {
       if (alive == 2 || alive == 3) {
         this.cellsNumbTabModelsNext.push( "black" )
       }
-      else if ((alive != 2 && alive != 3)) {
+      else  {
         this.cellsNumbTabModelsNext.push( "white" )
       }
     }
@@ -144,12 +128,10 @@ export class CanvasGridComponent implements OnInit {
       var alive = 0;
       this.finalCells.map(function (x) { if (x ===  "black" ) { alive++ } });
 
-
       if (alive == 3) {
         this.cellsNumbTabModelsNext.push( "black" )
       }
-      else if (alive !== 3) {
-
+      else {
         this.cellsNumbTabModelsNext.push( "white" );
       }
     }

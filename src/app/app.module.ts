@@ -7,14 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CanvasGridComponent } from './canvas-grid/canvas-grid.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
-import { CellsNumbTabModel} from "./cells-numb-tab-model";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CanvasGridComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    
     
     
   ],
