@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CellsNumbTabModel } from ".././cells-numb-tab-model";
+
 
 
 
@@ -19,8 +19,8 @@ export class CanvasGridComponent implements OnInit {
   private height;
   private finalCells;
   private cellsNumb: number;
-  private cellsNumbTabModelsPrevious: CellsNumbTabModel[] = [];  //TOFIX faire un tableau à deux dimensions plutot
-  private cellsNumbTabModelsNext: CellsNumbTabModel[] = [];
+  private cellsNumbTabModelsPrevious: string[] = [];  //TOFIX faire un tableau à deux dimensions plutot
+  private cellsNumbTabModelsNext: string[] = [];      //suppression du model passage a une simple string
   private count: any = 0 //TOFIX trouver une autre solution pour numéroter les cases
 
 
@@ -40,6 +40,7 @@ export class CanvasGridComponent implements OnInit {
 
   ngOnInit() {
     this.init();
+  
   };
 
   init() {
@@ -87,26 +88,26 @@ export class CanvasGridComponent implements OnInit {
       this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
       this.cellsNumbTabModelsNext = [];
     }
-    
+
   }
   private cell(i, n, color) {
     this.ctx.strokeRect((n - (this.height / this.cellsNumb)), i, (this.height / this.cellsNumb), (this.height / this.cellsNumb));
     this.ctx.strokeStyle = "black"
     this.ctx.fillStyle = color;
     this.ctx.fillRect((n - (this.height / this.cellsNumb)), i, (this.height / this.cellsNumb), (this.height / this.cellsNumb));
-    
+
   }
 
   private setColorsBuild(i, n) {
     var c: number = Math.random() // TODO: gerer ça avec la classe config.
     if (c < 0.5) {
       this.cell(i, n, "black");
-      this.cellsNumbTabModelsPrevious.push({ state: "black" })
+      this.cellsNumbTabModelsPrevious.push("black" )
       this.count++;
     }
     else if (c >= 0.5) {
       this.cell(i, n, "white")
-      this.cellsNumbTabModelsPrevious.push({ state: "white" })
+      this.cellsNumbTabModelsPrevious.push( "white" )
       this.count++
     }
 
@@ -122,40 +123,39 @@ export class CanvasGridComponent implements OnInit {
     if (this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)]) }
     if (this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)]) }
     if (this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1]) }
-   
+
 
 
   }
   private isAlive(i, n) {
     this.isDefined()
-    console.log(this.cellsNumbTabModelsPrevious[this.count]);
-    if (this.cellsNumbTabModelsPrevious[this.count] === { state:"black" }) {
+    if (this.cellsNumbTabModelsPrevious[this.count] == "black" ) {
       var alive = 0;
-      this.finalCells.map(function (x) { if (x === {state:"black"}) { alive++ } });
+      this.finalCells.map(function (x) { if (x == "black" ) { alive++ } });
       if (alive == 2 || alive == 3) {
-        this.cellsNumbTabModelsNext.push({ state:"black" })
+        this.cellsNumbTabModelsNext.push( "black" )
       }
       else if ((alive != 2 && alive != 3)) {
-          this.cellsNumbTabModelsNext.push({ state:"white" })
-        }
+        this.cellsNumbTabModelsNext.push( "white" )
       }
-
-    else if (this.cellsNumbTabModelsPrevious[this.count] === { state:"white" }) {
-        var alive = 0;
-        this.finalCells.map(function (x) { if (x === {state:"black"}) { alive++ } });
-
-
-        if (alive == 3) {
-          this.cellsNumbTabModelsNext.push({ state: "black" })
-        }
-        else if (alive !== 3) {
-
-          this.cellsNumbTabModelsNext.push({ state: "white" });
-        }
-      }
-      
     }
+
+    else if (this.cellsNumbTabModelsPrevious[this.count] ===  "white" ) {
+      var alive = 0;
+      this.finalCells.map(function (x) { if (x ===  "black" ) { alive++ } });
+
+
+      if (alive == 3) {
+        this.cellsNumbTabModelsNext.push( "black" )
+      }
+      else if (alive !== 3) {
+
+        this.cellsNumbTabModelsNext.push( "white" );
+      }
+    }
+
   }
+}
 
 
 
