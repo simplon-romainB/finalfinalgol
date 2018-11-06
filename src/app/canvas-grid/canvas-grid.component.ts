@@ -21,7 +21,7 @@ export class CanvasGridComponent implements OnInit {
   private cellsNumb: number;
   private cellsNumbTabModelsPrevious: string[] = [];  //TOFIX faire un tableau à deux dimensions plutot
   private cellsNumbTabModelsNext: string[] = [];      //suppression du model passage a une simple string
-  private count: any = 0 //TOFIX trouver une autre solution pour numéroter les cases
+  private count: any; //TOFIX trouver une autre solution pour numéroter les cases
 
 
   private defineDimensions(): void {  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
@@ -33,7 +33,7 @@ export class CanvasGridComponent implements OnInit {
 
   private drawInit() { //prépare la grille
     this.ctx = this.canvasRef.nativeElement.getContext("2d");
-    this.cellsNumb = 55; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
+    this.cellsNumb = 52; //nombre magique en attendant de décider si oui on non on peut configurer le nombre de cellules.
     this.buildGrid(true); // remplacement d'une variable de classe par un argument pour check sir la config de base est ok
   }
 
@@ -79,6 +79,7 @@ export class CanvasGridComponent implements OnInit {
       }
       this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
       this.cellsNumbTabModelsNext = [];
+      var t = setTimeout(()=>this.buildGrid(false),100);
     }
   }
   private cell(i, n, color) {
@@ -106,10 +107,10 @@ export class CanvasGridComponent implements OnInit {
     if (this.cellsNumbTabModelsPrevious[this.count + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + 1]) }
     if (this.cellsNumbTabModelsPrevious[this.count+ this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + this.cellsNumb]) }
     if (this.cellsNumbTabModelsPrevious[this.count- this.cellsNumb] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - this.cellsNumb]) }
-    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) + 1]) }
-    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb + 1)]) }
+    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) - 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1]) }
+    if (this.cellsNumbTabModelsPrevious[this.count- (this.cellsNumb) + 1] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb )+ 1]) }
     if (this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb - 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[(this.count + this.cellsNumb - 1)]) }
-    if (this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb + 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count - (this.cellsNumb) - 1]) }
+    if (this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb + 1)] !== undefined) { this.finalCells.push(this.cellsNumbTabModelsPrevious[this.count + (this.cellsNumb) + 1]) }
   }
   private isAlive(i, n) {
     this.isDefined()
