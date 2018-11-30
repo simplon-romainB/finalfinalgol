@@ -22,7 +22,8 @@ export class CanvasGridComponent implements OnInit {
   private cellsNumbTabModelsPrevious: string[] = [];  //TOFIX faire un tableau à deux dimensions plutot
   private cellsNumbTabModelsNext: string[] = [];      //suppression du model passage a une simple string
   private count: any; //TOFIX trouver une autre solution pour numéroter les cases
-
+  private timeSpeed = 100;
+  private timer: any;
 
   private defineDimensions(): void {  // redefinition de la taille du canva pour le responsive, en le liant à la taille d'un conteneur;
     this.width = this.canvascontainer.nativeElement.offsetHeight;
@@ -54,6 +55,15 @@ export class CanvasGridComponent implements OnInit {
   getWidth() {
     return this.width;
   }
+  stop() {
+    clearTimeout(this.timer);
+  }
+  fastForward() {
+    this.timeSpeed = this.timeSpeed/2;
+  }
+  backward() {
+    this.timeSpeed = this.timeSpeed*2;
+  }
   private buildGrid(init) {
     this.count = -1;
     //TOFIX se debarasser de cette var count qui en plus recourt à un nombre magique
@@ -79,7 +89,7 @@ export class CanvasGridComponent implements OnInit {
       }
       this.cellsNumbTabModelsPrevious = this.cellsNumbTabModelsNext;
       this.cellsNumbTabModelsNext = [];
-      var t = setTimeout(()=>this.buildGrid(false),100);
+       this.timer = setTimeout(()=>this.buildGrid(false),this.timeSpeed);
     }
   }
   private cell(i, n, color) {

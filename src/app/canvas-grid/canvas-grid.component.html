@@ -1,5 +1,23 @@
 <div class="col-md-12" id="canvasContainer"  #canvasContainer>
-    <canvas #gameOfLife (click)= "this.buildGrid(false)">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+  crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+  crossorigin="anonymous">
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+
+    <div class="btn-group " role="group">
+      <button type="button" class="btn btn-primary" (click)= "backward()"><i class="fas fa-backward"></i> </button>
+      <button type="button" class="btn btn-primary" (click)= "buildGrid(false)"><i class="fas fa-play"></i></button>
+      <button type="button" class="btn btn-primary" (click)= "stop()"><i class="fas fa-pause"></i></button>
+      <button type="button" class="btn btn-primary" (click)="fastForward()"><i class="fas fa-forward"></i></button>
+    </div>
+  </div>
+
+
+
+</div>
+    <canvas #gameOfLife >
     </canvas>
 </div>
 
@@ -10,4 +28,35 @@
         height: 100vh;
         margin: auto;
     }
+
+    body {
+        font-family: 'Quicksand', sans-serif;
+        border: 0;
+        padding: 0;
+        background-color: #b3cccc;
+        margin: 0;
+    }
+    
+    #intro {
+        position: relative;
+        width: 100%;
+        height: 30vh;
+        text-align: center;
+        background: url(http://math.pc.vh.free.fr/divers/life/graphics/gospers_breeder.gif);
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+        margin-top: 0;
+    }
+    
+    #config {
+        margin-top: -1.5%;
+        z-index: 10;
+        position: absolute;
+        text-align: center;
+        border-bottom-left-radius: 100%;
+        border-bottom-right-radius: 100%;
+        transform: translateY(-20%);
+        transform: translateX(-50%);
+
 </style>
